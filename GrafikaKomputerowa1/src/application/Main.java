@@ -24,9 +24,6 @@ public class Main extends Application {
     private void initSomeLogic() {
         GkController gkController = new GkController(group, scene);
         gkController.init();
-//        Line line = new Line(0,0,10,10);
-//        group.getChildren().add(line);
-//        scene.setOnKeyTyped(key -> line.setEndX(line.getEndX()+1));
     }
 
     public static void main(String[] args) {

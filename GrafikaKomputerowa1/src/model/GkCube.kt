@@ -1,11 +1,9 @@
 package model
 
-import javafx.scene.effect.PerspectiveTransform
 import javafx.scene.paint.Color
 import javafx.scene.paint.Paint
 import javafx.scene.shape.Line
 import javafx.scene.shape.Polygon
-import javafx.scene.shape.Rectangle
 
 data class GkCube(val squareA : GkSquare, val squareB : GkSquare, val color: Paint = Color.BLACK){
 
@@ -15,16 +13,6 @@ data class GkCube(val squareA : GkSquare, val squareB : GkSquare, val color: Pai
         return setOf(
                 Polygon()
         )
-    }
-
-    fun generateAllLines() : Set<Line> {
-        val lines = mutableSetOf<Line>()
-        edges.forEach { edge ->
-            val line = edge.generateLine()
-            line.stroke = color
-            lines.add(line)
-        }
-        return lines
     }
 
     private fun createAllEdges() : Set<GkEdge> {

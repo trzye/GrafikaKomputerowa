@@ -17,12 +17,6 @@ data class GkScene(val cubes : Set<GkCube>){
         return allPoints
     }
 
-    fun generateAllLines() : Set<Line> {
-        val lines = mutableSetOf<Line>()
-        cubes.forEach { cube -> lines.addAll(cube.generateAllLines()) }
-        return lines
-    }
-
     fun createQuadrilaterals() : List<Polygon>{
         val list = emptyList<Polygon>().toMutableList()
         cubes.forEach { cube -> list.addAll(cube.createQuadrilaterals())}

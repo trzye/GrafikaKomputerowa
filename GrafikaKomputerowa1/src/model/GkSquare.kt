@@ -12,12 +12,16 @@ data class GkSquare(val downLeftPoint : GkPoint,
 
     fun createQuadrilateral(): Polygon {
         return Polygon(
-                Settings.WINDOW_SIZE/2 + downLeftPoint.perspectiveX(),- Settings.WINDOW_SIZE/2 + Settings.WINDOW_SIZE - downLeftPoint.perspectiveY(),
-                Settings.WINDOW_SIZE/2 +  downRightPoint.perspectiveX(), -Settings.WINDOW_SIZE/2 + Settings.WINDOW_SIZE - downRightPoint.perspectiveY(),
-                Settings.WINDOW_SIZE/2 +  upperRightPoint.perspectiveX(),-Settings.WINDOW_SIZE/2 + Settings.WINDOW_SIZE - upperRightPoint.perspectiveY(),
-                Settings.WINDOW_SIZE/2 +  upperLeftPoint.perspectiveX(),-Settings.WINDOW_SIZE/2 + Settings.WINDOW_SIZE - upperLeftPoint.perspectiveY()
+                xToWindow(downLeftPoint.perspectiveX()), yToWindow(downLeftPoint.perspectiveY()),
+                xToWindow(downRightPoint.perspectiveX()), yToWindow(downRightPoint.perspectiveY()),
+                xToWindow(upperRightPoint.perspectiveX()),yToWindow(upperRightPoint.perspectiveY()),
+                xToWindow(upperLeftPoint.perspectiveX()), yToWindow(upperLeftPoint.perspectiveY())
         )
     }
+
+    private fun yToWindow(y : Double) = -y
+
+    private fun xToWindow(x : Double) = Settings.WINDOW_SIZE/2 + x
 
     private fun createAllEdges() : Set<GkEdge>{
         return setOf(

@@ -20,19 +20,46 @@ class GkController(val group: Group, val scene: Scene) {
 
     private fun renderScene() {
         group.children.clear()
-        gkScene.createQuadrilaterals().forEach { quad -> group.children.add(quad) }
+        gkScene.createQuadrilaterals().forEach { quad ->
+            group.children.add(quad)
+        }
+        println(gkScene)
     }
 
     private fun initGkScene(): GkScene {
         val gkCube1 = GkCube(
-                GkSquare(GkPoint(-100, -200, 100), GkPoint(100, -200, 100), GkPoint(-100, 200, 100), GkPoint(100, 200, 100)),
-                GkSquare(GkPoint(-100, -200, 250), GkPoint(100, -200, 250), GkPoint(-100, 200, 250), GkPoint(100, 200, 250)),
-                Color.TRANSPARENT
+                squareA =
+                GkSquare(
+                        downLeftPoint   = GkPoint(x = -100,  y = -300,  z = 200),
+                        downRightPoint  = GkPoint(x = 100,  y = -300,  z = 200),
+                        upperLeftPoint  = GkPoint(x = -100,  y = -100,z = 200),
+                        upperRightPoint = GkPoint(x = 100,  y = -100,z = 200)
+                ),
+                squareB =
+                GkSquare(
+                        downLeftPoint   = GkPoint(x = -100,  y = -300,  z = 400),
+                        downRightPoint  = GkPoint(x = 100,  y = -300,  z = 400),
+                        upperLeftPoint  = GkPoint(x = -100,  y = -100,z = 400),
+                        upperRightPoint = GkPoint(x = 100,  y = -100,z = 400)
+                ),
+                color = Color.TRANSPARENT
         )
         val gkCube2 = GkCube(
-                GkSquare(GkPoint(110, -20, 110), GkPoint(110, -20, 110), GkPoint(150, 20, 110), GkPoint(150, 20, 110)),
-                GkSquare(GkPoint(110, -20, 130), GkPoint(110, -20, 130), GkPoint(150, 20, 130), GkPoint(150, 20, 130)),
-                Color.TRANSPARENT
+                squareA =
+                GkSquare(
+                        downLeftPoint   = GkPoint(x = 200,  y = -300,  z = 300),
+                        downRightPoint  = GkPoint(x = 300,  y = -300,  z = 300),
+                        upperLeftPoint  = GkPoint(x = 200,  y = -200,z = 300),
+                        upperRightPoint = GkPoint(x = 300,  y = -200,z = 300)
+                ),
+                squareB =
+                GkSquare(
+                        downLeftPoint   = GkPoint(x = 200,  y = -300,  z = 500),
+                        downRightPoint  = GkPoint(x = 300,  y = -300,  z = 500),
+                        upperLeftPoint  = GkPoint(x = 200,  y = -200,z = 500),
+                        upperRightPoint = GkPoint(x = 300,  y = -200,z = 500)
+                ),
+                color = Color.TRANSPARENT
         )
         return GkScene(setOf(gkCube1, gkCube2))
     }
@@ -53,20 +80,26 @@ class GkController(val group: Group, val scene: Scene) {
         }
     }
 
+
     private fun stepBack() {
         gkScene.points.forEach {
-            point -> point.z-=Settings.STEP
+            point ->
+            point.z+=Settings.STEP
+            Settings.CAMERA_Z-=Settings.STEP
         }
     }
 
     private fun stepForward() {
         gkScene.points.forEach {
-            point -> point.z+=Settings.STEP
+            point ->
+            point.z-=Settings.STEP
+            Settings.CAMERA_Z+=Settings.STEP
+//            print("${point} X: ${point.perspectiveX()} Y: ${point.perspectiveY()}")
         }
     }
 
     private fun rotateRight(rotation : Double) {
-        rotate(rotation)
+        rotate(-rotation)
     }
 
     private fun rotate(rotation: Double) {
@@ -74,8 +107,8 @@ class GkController(val group: Group, val scene: Scene) {
             point ->
             val point2x = point.x
             val point2z = point.z
-            val centerX = 0
-            val centerZ = 500
+            val centerX = Settings.CAMERA_X
+            val centerZ = -Settings.WINDOW_SIZE
             val x = rotation
             val newX = centerX + (point2x - centerX) * Math.cos(x) - (point2z - centerZ) * Math.sin(x)
             val newZ = centerZ + (point2x - centerX) * Math.sin(x) + (point2z - centerZ) * Math.cos(x)
@@ -85,28 +118,31 @@ class GkController(val group: Group, val scene: Scene) {
     }
 
     private fun rotateLeft(rotation : Double) {
-        rotate(-rotation)
+        rotate(rotation)
     }
 
     private fun stepRight() {
         gkScene.points.forEach {
             point ->
-            point.x-=Settings.STEP/10
+            point.x-=Settings.STEP
         }
     }
 
     private fun stepLeft() {
         gkScene.points.forEach {
             point ->
-            point.x+=Settings.STEP/10
+            point.x+=Settings.STEP
         }
     }
 
     private fun zoomIn() {
-
+        Settings.SCALE += 0.1
     }
 
     private fun zoomOut() {
+        Settings.SCALE -= 0.1
+        if(Settings.SCALE < 1)
+            Settings.SCALE = 1.0
     }
 }
 
