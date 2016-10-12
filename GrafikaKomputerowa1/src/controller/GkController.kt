@@ -1,13 +1,16 @@
 package controller
 
+import javafx.scene.Cursor
 import javafx.scene.Group
 import javafx.scene.Scene
 import javafx.scene.input.KeyCode
 import javafx.scene.paint.Color
+import javafx.stage.Screen
 import model.GkCube
 import model.GkPoint
 import model.GkScene
 import model.GkSquare
+import java.awt.Robot
 
 class GkController(val group: Group, val scene: Scene) {
 
@@ -20,10 +23,10 @@ class GkController(val group: Group, val scene: Scene) {
 
     private fun renderScene() {
         group.children.clear()
-        gkScene.createQuadrilaterals().forEach { quad ->
-            group.children.add(quad)
+        gkScene.polygons.forEach { polygon ->
+            polygon.refresh()
+            group.children.add(polygon)
         }
-        println(gkScene)
     }
 
     private fun initGkScene(): GkScene {
@@ -66,73 +69,67 @@ class GkController(val group: Group, val scene: Scene) {
 
     private fun setListeners() {
         scene.setOnKeyPressed {
-            key -> when(key.code){
+            key ->
+            when(key.code){
                 KeyCode.W -> stepForward()
             KeyCode.S -> stepBack()
             KeyCode.A -> stepLeft()
             KeyCode.D -> stepRight()
-            KeyCode.Q -> rotateLeft(-Settings.ROTATE)
-            KeyCode.E -> rotateRight(-Settings.ROTATE)
             KeyCode.R -> zoomIn()
             KeyCode.F -> zoomOut()
         }
             renderScene()
         }
+        scene.setOnMouseMoved {
+            movement ->
+            if(mouseX != null) {
+                if (mouseX!! - movement.x < 0)
+                    rotateHorizontal(Settings.ROTATE)
+                if (mouseX!! - movement.x > 0)
+                    rotateHorizontal(-Settings.ROTATE)
+            }
+            mouseX = movement.x
+            scene.cursor = Cursor.NONE
+            if((movement.sceneX.toInt() < 100) || (movement.sceneX.toInt() > Settings.WINDOW_SIZE - 100))
+                Robot().mouseMove(screenWidth/2, screenHeight/2)
+            renderScene()
+        }
     }
+
+    var screenWidth = Screen.getPrimary().bounds.width.toInt()
+    var screenHeight = Screen.getPrimary().bounds.height.toInt()
+
+    var mouseX : Double? = null
 
 
     private fun stepBack() {
-        gkScene.points.forEach {
-            point ->
-            point.z+=Settings.STEP
-            Settings.CAMERA_Z-=Settings.STEP
-        }
+        gkScene.polygons.forEach { polygon -> polygon.points3d.forEach { point3d -> point3d.z += Settings.STEP } }
+
     }
 
     private fun stepForward() {
-        gkScene.points.forEach {
-            point ->
-            point.z-=Settings.STEP
-            Settings.CAMERA_Z+=Settings.STEP
-//            print("${point} X: ${point.perspectiveX()} Y: ${point.perspectiveY()}")
+        gkScene.polygons.forEach { polygon -> polygon.points3d.forEach { point3d -> point3d.z -= Settings.STEP } }
+    }
+
+    private fun rotateHorizontal(rotation: Double) {
+        gkScene.polygons.forEach { polygon ->
+            polygon.points3d.forEach { point ->
+                val centerX = 0
+                val centerZ = -Settings.WINDOW_SIZE
+                val newPointX = centerX + (point.x - centerX) * Math.cos(rotation) - (point.z - centerZ) * Math.sin(rotation)
+                val newPointZ = centerZ + (point.x - centerX) * Math.sin(rotation) + (point.z - centerZ) * Math.cos(rotation)
+                point.x = newPointX
+                point.z = newPointZ
+            }
         }
-    }
-
-    private fun rotateRight(rotation : Double) {
-        rotate(-rotation)
-    }
-
-    private fun rotate(rotation: Double) {
-        gkScene.points.forEach {
-            point ->
-            val point2x = point.x
-            val point2z = point.z
-            val centerX = Settings.CAMERA_X
-            val centerZ = -Settings.WINDOW_SIZE
-            val x = rotation
-            val newX = centerX + (point2x - centerX) * Math.cos(x) - (point2z - centerZ) * Math.sin(x)
-            val newZ = centerZ + (point2x - centerX) * Math.sin(x) + (point2z - centerZ) * Math.cos(x)
-            point.x = newX
-            point.z = newZ
-        }
-    }
-
-    private fun rotateLeft(rotation : Double) {
-        rotate(rotation)
     }
 
     private fun stepRight() {
-        gkScene.points.forEach {
-            point ->
-            point.x-=Settings.STEP
-        }
+        gkScene.polygons.forEach { polygon -> polygon.points3d.forEach { point -> point.x-=Settings.STEP } }
     }
 
     private fun stepLeft() {
-        gkScene.points.forEach {
-            point ->
-            point.x+=Settings.STEP
-        }
+        gkScene.polygons.forEach { polygon -> polygon.points3d.forEach { point -> point.x+=Settings.STEP } }
     }
 
     private fun zoomIn() {

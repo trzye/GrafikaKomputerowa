@@ -1,12 +1,10 @@
 package controller
 
 object Settings {
-    const val WINDOW_SIZE = 400
-    var CAMERA_Z = -WINDOW_SIZE
-    var CAMERA_X = 0
+    const val WINDOW_SIZE = 750
     var PERSPECTIVE_DISTANCE = WINDOW_SIZE
     const val ZOOM = WINDOW_SIZE / 25
-    const val ROTATE = 0.03
-    const val STEP = ZOOM
+    const val ROTATE = 0.01
+    const val STEP = ZOOM/2
     var SCALE = 1.0
 }
