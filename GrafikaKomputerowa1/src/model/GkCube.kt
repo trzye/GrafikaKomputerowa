@@ -6,27 +6,11 @@ import javafx.scene.shape.Polygon
 
 data class GkCube(val squareA : GkSquare, val squareB : GkSquare, val color: Paint = Color.BLACK){
 
-//    val edges = createAllEdges()
-
-//    private fun createAllEdges() : Set<GkEdge> {
-//        val connectionEdges = setOf(
-//                GkEdge(squareA.upperRightPoint, squareB.upperRightPoint),
-//                GkEdge(squareA.upperLeftPoint, squareB.upperLeftPoint),
-//                GkEdge(squareA.downRightPoint, squareB.downRightPoint),
-//                GkEdge(squareA.downLeftPoint, squareB.downLeftPoint)
-//        )
-//        val allEdges = emptyList<GkEdge>().toMutableList()
-//        allEdges.addAll(connectionEdges)
-//        allEdges.addAll(squareB.edges)
-//        allEdges.addAll(squareA.edges)
-//        return allEdges.toSet()
-//    }
-
     fun createQuadrilaterals() : List<GkPolygon>{
         val qb = squareB.createQuadrilateral()
         val qa = squareA.createQuadrilateral()
-        qa.fill = color
-        qb.fill = Color.rgb(100, 100, 100, 0.5)
+        qb.fill = color
+        qa.fill = Color.rgb(100, 100, 100, 0.5)
         qb.stroke = Color.BLACK
         qa.stroke = Color.BLACK
 

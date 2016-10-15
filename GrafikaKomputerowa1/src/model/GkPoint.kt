@@ -2,7 +2,7 @@ package model
 
 import controller.GkSettings
 
-data class GkPoint(var x : Double, var y : Double, var z : Double, var rotHz : Double? = null, var rotLz : Double? = null){
+data class GkPoint(var x : Double, var y : Double, var z : Double){
 
     constructor(x : Int, y : Int, z : Int) : this(x.toDouble(), y.toDouble(), z.toDouble())
 
@@ -19,4 +19,13 @@ data class GkPoint(var x : Double, var y : Double, var z : Double, var rotHz : D
         return this
     }
 
+    fun positionByPlane(plane : GkPlane) : GkPosition {
+        val res = plane.A * x + plane.B * y + plane.C * z + plane.D
+        if(res > 0)
+            return GkPosition.BEHIND_PLANE
+        if(res < 0)
+            return GkPosition.BEFORE_PLANE
+        return GkPosition.ON_PLANE
+    }
 }
+
