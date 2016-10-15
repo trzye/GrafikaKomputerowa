@@ -1,6 +1,7 @@
 package model
 
 import controller.GkSettings
+import javafx.scene.paint.Color
 import javafx.scene.shape.Polygon
 import model.GkPosition.*
 
@@ -64,7 +65,7 @@ class GkPolygon(val points3d: List<GkPoint>) : Polygon() {
         val points = emptyList<GkPoint>().toMutableList()
         points3d.forEach { point -> points.add(point.copy()) }
         val copy = GkPolygon(points)
-        copy.fill = fill
+        copy.fill = Color(0.30,0.30,0.30,0.30) //TODO
         copy.stroke = stroke
         return copy
     }

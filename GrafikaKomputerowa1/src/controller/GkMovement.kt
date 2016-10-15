@@ -21,7 +21,6 @@ class GkMovement(val gkScene : GkScene) {
                 point.x = newPointX
                 point.z = newPointZ
             }
-        println(gkScene.points.size)
     }
 
     fun stepRight() {

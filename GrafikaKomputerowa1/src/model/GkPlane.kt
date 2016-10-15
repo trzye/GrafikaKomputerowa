@@ -15,7 +15,7 @@ data class GkPlane(val A : Double, val B : Double, val C : Double, val p : GkPoi
     val D : Double = -A*p.x + -B*p.y + -C*p.z
 
     fun getIntersectionPoint(line: GkLine): GkPoint {
-        val t = -(A * line.x.b + B * line.y.b + C * line.z.b) / (A * line.x.a + B * line.y.a + C * line.z.a)
+        val t = -(A * line.x.a + B * line.y.a + C * line.z.a + D) / (A * line.x.b + B * line.y.b + C * line.z.b)
         return line.calculatePoint(t)
     }
 }

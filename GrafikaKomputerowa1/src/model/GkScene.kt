@@ -29,7 +29,7 @@ data class GkScene(val cubes : Set<GkCube>){
 
 
     private fun createPolygons(): List<GkPolygon> {
-        val plane = GkPlane(tempPolygons.first())
+        val plane = GkPlane(tempPolygons.last())
         val toSplit = tempPolygons.filter { polygon -> polygon.positionBy(plane) == GkPosition.CANT_STATE }
         val result = tempPolygons.toMutableList()
         result.removeAll(toSplit)
