@@ -5,16 +5,15 @@ import model.GkScene
 class GkMovement(val gkScene : GkScene) {
 
     fun stepBack() {
-        gkScene.polygons.forEach { polygon -> polygon.points3d.forEach { point3d -> point3d.z += GkSettings.STEP } }
+        gkScene.points.forEach { point3d -> point3d.z += GkSettings.STEP }
     }
 
     fun stepForward() {
-        gkScene.polygons.forEach { polygon -> polygon.points3d.forEach { point3d -> point3d.z -= GkSettings.STEP } }
+        gkScene.points.forEach { point3d -> point3d.z -= GkSettings.STEP }
     }
 
     fun rotateHorizontal(rotation: Double) {
-        gkScene.polygons.forEach { polygon ->
-            polygon.points3d.forEach { point ->
+            gkScene.points.forEach { point ->
                 val centerX = 0
                 val centerZ = -GkSettings.WINDOW_SIZE
                 val newPointX = centerX + (point.x - centerX) * Math.cos(rotation) - (point.z - centerZ) * Math.sin(rotation)
@@ -22,15 +21,15 @@ class GkMovement(val gkScene : GkScene) {
                 point.x = newPointX
                 point.z = newPointZ
             }
-        }
+        println(gkScene.points.size)
     }
 
     fun stepRight() {
-        gkScene.polygons.forEach { polygon -> polygon.points3d.forEach { point -> point.x -= GkSettings.STEP } }
+        gkScene.points.forEach { point -> point.x -= GkSettings.STEP }
     }
 
     fun stepLeft() {
-        gkScene.polygons.forEach { polygon -> polygon.points3d.forEach { point -> point.x += GkSettings.STEP } }
+        gkScene.points.forEach { point -> point.x += GkSettings.STEP }
     }
 
     fun zoomIn() {

@@ -31,7 +31,7 @@ class GkPolygon(val points3d: List<GkPoint>) : Polygon() {
         return CANT_STATE
     }
 
-    fun splitBy(plane: GkPlane) : Pair<GkPolygon, GkPolygon>{
+    fun splitBy(plane: GkPlane) : List<GkPolygon>{
         if(positionBy(plane) == CANT_STATE){
             val sortedPoints = getListWhereBehindPointsAreAtTheBeginning(plane)
             val lastBehindIndex = sortedPoints.indexOfLast { p -> p.positionBy(plane) == BEHIND_PLANE }
@@ -41,11 +41,11 @@ class GkPolygon(val points3d: List<GkPoint>) : Polygon() {
             val pointC2 = sortedPoints.last()
             val pointB1 : GkPoint = plane.getIntersectionPoint(GkLine(pointA1, pointC1))
             val pointB2 : GkPoint = plane.getIntersectionPoint(GkLine(pointA2, pointC2))
-            val listOne = sortedPoints.subList(0, lastBehindIndex).toMutableList()
+            val listOne = sortedPoints.subList(0, lastBehindIndex + 1).toMutableList()
             listOne.addAll(listOf(pointB1,pointB2))
-            val listTwo = sortedPoints.subList(lastBehindIndex+1, sortedPoints.lastIndex).toMutableList()
+            val listTwo = sortedPoints.subList(lastBehindIndex+1, sortedPoints.lastIndex + 1).toMutableList()
             listTwo.addAll(listOf(pointB2,pointB1))
-            return Pair(GkPolygon(listOne), GkPolygon(listTwo))
+            return listOf(GkPolygon(listOne), GkPolygon(listTwo))
         }
         throw IllegalArgumentException("Can't split polygon $points3d by plane $plane")
     }
@@ -53,11 +53,20 @@ class GkPolygon(val points3d: List<GkPoint>) : Polygon() {
     private fun getListWhereBehindPointsAreAtTheBeginning(plane: GkPlane): MutableList<GkPoint> {
         val sortedPoints = points3d.toMutableList()
         while ((sortedPoints.first().positionBy(plane) != BEHIND_PLANE)
-                && (sortedPoints.last().positionBy(plane) == BEHIND_PLANE)) {
+                || (sortedPoints.last().positionBy(plane) == BEHIND_PLANE)) {
             val removed = sortedPoints.removeAt(sortedPoints.lastIndex)
             sortedPoints.add(0, removed)
         }
         return sortedPoints
+    }
+
+    fun copy(): GkPolygon {
+        val points = emptyList<GkPoint>().toMutableList()
+        points3d.forEach { point -> points.add(point.copy()) }
+        val copy = GkPolygon(points)
+        copy.fill = fill
+        copy.stroke = stroke
+        return copy
     }
 }
 
