@@ -19,7 +19,7 @@ data class GkPoint(var x : Double, var y : Double, var z : Double){
         return this
     }
 
-    fun positionByPlane(plane : GkPlane) : GkPosition {
+    fun positionBy(plane : GkPlane) : GkPosition {
         val res = plane.A * x + plane.B * y + plane.C * z + plane.D
         if(res > 0)
             return GkPosition.BEHIND_PLANE

@@ -13,6 +13,10 @@ data class GkPlane(val A : Double, val B : Double, val C : Double, val p : GkPoi
             polygon.points3d[2]
     )
     val D : Double = -A*p.x + -B*p.y + -C*p.z
+
+    fun getIntersectionPoint(line: GkLine): GkPoint {
+        throw UnsupportedOperationException("not implemented")
+    }
 }
 
 fun main(args: Array<String>) {
@@ -23,7 +27,6 @@ fun main(args: Array<String>) {
     val plane1 = GkPlane(polygon)
     val plane2 = GkPlane(pointA,pointB,pointC)
     assert(plane1 == plane2)
-    assert(pointA.positionByPlane(plane1) == GkPosition.ON_PLANE)
-    assert(GkPoint(1,2,-1).positionByPlane(plane2) == GkPosition.BEFORE_PLANE)
-    assert(GkPoint(1,2,10).positionByPlane(plane2) == GkPosition.BEHIND_PLANE)
+    assert(GkPoint(1,2,-1).positionBy(plane2) == GkPosition.BEFORE_PLANE)
+    assert(GkPoint(1,2,10).positionBy(plane2) == GkPosition.BEHIND_PLANE)
 }
