@@ -1,10 +1,10 @@
 package controller
 
-object Settings {
+object GkSettings {
     const val WINDOW_SIZE = 750
-    var PERSPECTIVE_DISTANCE = WINDOW_SIZE
+    const val PERSPECTIVE_DISTANCE = WINDOW_SIZE
     const val ZOOM = WINDOW_SIZE / 25
     const val ROTATE = 0.01
     const val STEP = ZOOM/2
-    var SCALE = 1.0
+    var scale = 1.0
 }

@@ -1,7 +1,7 @@
 package application;
 
 import controller.GkController;
-import controller.Settings;
+import controller.GkSettings;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -10,7 +10,7 @@ import javafx.stage.Stage;
 public class Main extends Application {
 
     private Group group = new Group();
-    private Scene scene = new Scene(group, Settings.WINDOW_SIZE, Settings.WINDOW_SIZE);
+    private Scene scene = new Scene(group, GkSettings.WINDOW_SIZE, GkSettings.WINDOW_SIZE);
 
     @Override
     public void start(Stage primaryStage) throws Exception {

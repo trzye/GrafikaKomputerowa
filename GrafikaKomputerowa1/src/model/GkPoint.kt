@@ -1,6 +1,6 @@
 package model
 
-import controller.Settings
+import controller.GkSettings
 
 data class GkPoint(var x : Double, var y : Double, var z : Double, var rotHz : Double? = null, var rotLz : Double? = null){
 
@@ -10,8 +10,8 @@ data class GkPoint(var x : Double, var y : Double, var z : Double, var rotHz : D
 
     var y2d = perspectiveY()
 
-    private fun perspectiveX()  = ( x * Settings.PERSPECTIVE_DISTANCE) / ( z + Settings.PERSPECTIVE_DISTANCE) * Settings.SCALE
-    private fun perspectiveY()  = ( y * Settings.PERSPECTIVE_DISTANCE) / ( z + Settings.PERSPECTIVE_DISTANCE) * Settings.SCALE
+    private fun perspectiveX()  = ( x * GkSettings.PERSPECTIVE_DISTANCE) / ( z + GkSettings.PERSPECTIVE_DISTANCE) * GkSettings.scale
+    private fun perspectiveY()  = ( y * GkSettings.PERSPECTIVE_DISTANCE) / ( z + GkSettings.PERSPECTIVE_DISTANCE) * GkSettings.scale
 
     fun refresh() : GkPoint{
         x2d = perspectiveX()

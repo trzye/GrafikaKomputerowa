@@ -1,6 +1,6 @@
 package model
 
-import controller.Settings
+import controller.GkSettings
 import javafx.scene.shape.Polygon
 
 class GkPolygon(val points3d: List<GkPoint>) : Polygon() {
@@ -15,7 +15,7 @@ class GkPolygon(val points3d: List<GkPoint>) : Polygon() {
 
     private fun yToWindow(y: Double) = -y
 
-    private fun xToWindow(x: Double) = Settings.WINDOW_SIZE / 2 + x
+    private fun xToWindow(x: Double) = GkSettings.WINDOW_SIZE / 2 + x
 
     fun refresh() {
         points.clear()
