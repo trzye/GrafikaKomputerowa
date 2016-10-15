@@ -5,11 +5,15 @@ import javafx.scene.paint.Color
 import javafx.scene.shape.Polygon
 import model.GkPosition.*
 
-class GkPolygon(val points3d: List<GkPoint>) : Polygon() {
+class GkPolygon(val points3d: List<GkPoint>,
+                val fillColor : Color = Color(0.3,0.3,0.3,0.3),
+                val strokeColor : Color = Color.BLACK) : Polygon() {
 
     init {
         if (points3d.size > 2) {
             points3d.forEach { point3d -> points.addAll(xToWindow(point3d.x2d), yToWindow(point3d.y2d)) }
+            fill = fillColor
+            stroke = strokeColor
         } else {
             throw IllegalArgumentException("[Given ${points3d.size} points] Polygon need at least 3 points to exists!")
         }
@@ -46,7 +50,7 @@ class GkPolygon(val points3d: List<GkPoint>) : Polygon() {
             listOne.addAll(listOf(pointB1,pointB2))
             val listTwo = sortedPoints.subList(lastBehindIndex+1, sortedPoints.lastIndex + 1).toMutableList()
             listTwo.addAll(listOf(pointB2,pointB1))
-            return listOf(GkPolygon(listOne), GkPolygon(listTwo))
+            return listOf(GkPolygon(listOne, fillColor, strokeColor), GkPolygon(listTwo, fillColor, strokeColor))
         }
         throw IllegalArgumentException("Can't split polygon $points3d by plane $plane")
     }
@@ -65,8 +69,8 @@ class GkPolygon(val points3d: List<GkPoint>) : Polygon() {
         val points = emptyList<GkPoint>().toMutableList()
         points3d.forEach { point -> points.add(point.copy()) }
         val copy = GkPolygon(points)
-        copy.fill = Color(0.30,0.30,0.30,0.30) //TODO
-        copy.stroke = stroke
+        copy.fill = fillColor
+        copy.stroke = strokeColor
         return copy
     }
 }

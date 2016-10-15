@@ -14,7 +14,9 @@ object GkInput {
                     downLeftPoint = GkPoint(x = -100, y = -300, z = 200),
                     downRightPoint = GkPoint(x = 100, y = -300, z = 200),
                     upperLeftPoint = GkPoint(x = -100, y = -100, z = 200),
-                    upperRightPoint = GkPoint(x = 100, y = -100, z = 200)
+                    upperRightPoint = GkPoint(x = 100, y = -100, z = 200),
+                    fillColor = Color.RED,
+                    strokeColor = Color.BLACK
             ),
             squareB =
             GkSquare(

@@ -14,7 +14,8 @@ data class GkCube(val squareA : GkSquare, val squareB : GkSquare, val color: Pai
         qb.stroke = Color.BLACK
         qa.stroke = Color.BLACK
 
-        val q1 = GkSquare(squareA.downLeftPoint, squareA.downRightPoint, squareB.downLeftPoint, squareB.downRightPoint).createQuadrilateral()
+        val q1 = GkSquare(squareA.downLeftPoint, squareA.downRightPoint, squareB.downLeftPoint, squareB.downRightPoint,
+                Color.AQUA, Color.RED).createQuadrilateral()
         q1.fill = color
         q1.stroke = Color.BLACK
 
