@@ -2,14 +2,14 @@ package model
 
 import bsp.GkAlphaDirection
 import bsp.GkPosition
+import bsp.GkPosition.*
 import controller.GkSettings
 import javafx.scene.paint.Color
 import javafx.scene.shape.Polygon
-import bsp.GkPosition.*
 
 class GkPolygon(val points3d: List<GkPoint>, val alphaDirection: GkAlphaDirection,
-                val fillColor : Color = Color(0.3,0.3,0.3,0.3),
-                val strokeColor : Color = Color.BLACK) : Polygon() {
+                val fillColor: Color = Color(0.3, 0.3, 0.3, 0.3),
+                val strokeColor: Color = Color.BLACK) : Polygon() {
 
     init {
         if (points3d.size > 2) {
@@ -30,31 +30,31 @@ class GkPolygon(val points3d: List<GkPoint>, val alphaDirection: GkAlphaDirectio
         points3d.forEach { point3d -> points.addAll(xToWindow(point3d.refresh().x2d), yToWindow(point3d.refresh().y2d)) }
     }
 
-    fun positionBy(plane: GkPlane) : GkPosition {
-        if(points3d.count { p -> p.positionBy(plane) == BEHIND_PLANE } == 0)
+    fun positionBy(plane: GkPlane): GkPosition {
+        if (points3d.count { p -> p.positionBy(plane) == BEHIND_PLANE } == 0)
             return BEFORE_PLANE
-        if(points3d.count { p -> p.positionBy(plane) == BEFORE_PLANE } == 0)
+        if (points3d.count { p -> p.positionBy(plane) == BEFORE_PLANE } == 0)
             return BEHIND_PLANE
         return CANT_STATE
     }
 
-    fun splitBy(plane: GkPlane) : List<GkPolygon>{
-        if(positionBy(plane) == CANT_STATE){
+    fun splitBy(plane: GkPlane): List<GkPolygon> {
+        if (positionBy(plane) == CANT_STATE) {
             val sortedPoints = getListWhereBehindPointsAreAtTheBeginning(plane)
             val lastBehindIndex = sortedPoints.indexOfLast { p -> p.positionBy(plane) == BEHIND_PLANE }
             val pointA1 = sortedPoints[lastBehindIndex]
             val pointA2 = sortedPoints.first()
-            val pointC1 = sortedPoints[lastBehindIndex+1]
+            val pointC1 = sortedPoints[lastBehindIndex + 1]
             val pointC2 = sortedPoints.last()
-            val pointB1 : GkPoint = plane.getIntersectionPoint(GkLine(pointA1, pointC1))
-            val pointB2 : GkPoint = plane.getIntersectionPoint(GkLine(pointA2, pointC2))
+            val pointB1: GkPoint = plane.getIntersectionPoint(GkLine(pointA1, pointC1))
+            val pointB2: GkPoint = plane.getIntersectionPoint(GkLine(pointA2, pointC2))
             val listOne = sortedPoints.subList(0, lastBehindIndex + 1).toMutableList()
-            listOne.addAll(listOf(pointB1,pointB2))
-            val listTwo = sortedPoints.subList(lastBehindIndex+1, sortedPoints.lastIndex + 1).toMutableList()
-            listTwo.addAll(listOf(pointB2,pointB1))
+            listOne.addAll(listOf(pointB1, pointB2))
+            val listTwo = sortedPoints.subList(lastBehindIndex + 1, sortedPoints.lastIndex + 1).toMutableList()
+            listTwo.addAll(listOf(pointB2, pointB1))
             return listOf(
                     GkPolygon(listOne, alphaDirection, fillColor, strokeColor),
-                    GkPolygon(listTwo,alphaDirection, fillColor, strokeColor))
+                    GkPolygon(listTwo, alphaDirection, fillColor, strokeColor))
         }
         throw IllegalArgumentException("Can't split polygon $points3d by plane $plane")
     }

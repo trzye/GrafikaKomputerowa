@@ -3,17 +3,16 @@ package model
 import bsp.GkAlphaDirection
 import javafx.scene.paint.Color
 import javafx.scene.paint.Paint
-import javafx.scene.shape.Polygon
 
-data class GkCube(val squareA : GkSquare, val squareB : GkSquare, val color: Paint = Color.BLACK){
+data class GkCube(val squareA: GkSquare, val squareB: GkSquare, val color: Paint = Color.BLACK) {
 
-    fun createQuadrilaterals() : List<GkPolygon>{
+    fun createQuadrilaterals(): List<GkPolygon> {
         val back = squareB.createQuadrilateral()
         val front = squareA.createQuadrilateral()
 
         val floor = GkSquare(
                 squareA.downLeftPoint, squareA.downRightPoint, squareB.downLeftPoint, squareB.downRightPoint,
-                GkAlphaDirection.FLOOR,Color.BROWN).createQuadrilateral()
+                GkAlphaDirection.FLOOR, Color.BROWN).createQuadrilateral()
 
         val top = GkSquare(
                 squareA.upperLeftPoint, squareA.upperRightPoint, squareB.upperLeftPoint, squareB.upperRightPoint,

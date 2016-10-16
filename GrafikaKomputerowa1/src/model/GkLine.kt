@@ -1,22 +1,20 @@
 package model
 
-data class GkLine(val x: OneDimensionLine, val y: OneDimensionLine, val z: OneDimensionLine) {
+data class GkLine(val x: GkOneDimensionLine, val y: GkOneDimensionLine, val z: GkOneDimensionLine) {
 
-    constructor(pointA : GkPoint, pointB : GkPoint) : this(
-            OneDimensionLine(pointA.x, pointB.x - pointA.x),
-            OneDimensionLine(pointA.y, pointB.y - pointA.y),
-            OneDimensionLine(pointA.z, pointB.z - pointA.z)
+    constructor(pointA: GkPoint, pointB: GkPoint) : this(
+            GkOneDimensionLine(pointA.x, pointB.x - pointA.x),
+            GkOneDimensionLine(pointA.y, pointB.y - pointA.y),
+            GkOneDimensionLine(pointA.z, pointB.z - pointA.z)
     )
 
     fun calculatePoint(t: Double): GkPoint {
         return GkPoint(
-                x.a + x.b * t,
-                y.a + y.b * t,
-                z.a + z.b * t
+                x.calculatePoint(t),
+                y.calculatePoint(t),
+                z.calculatePoint(t)
         )
     }
 
 }
 
-// x = a + b*t
-data class OneDimensionLine(val a: Double,val b: Double)

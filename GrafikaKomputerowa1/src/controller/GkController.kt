@@ -55,8 +55,8 @@ class GkController(val group: Group, val scene: Scene) {
             setMousePositionToCenter()
     }
 
-    private fun isOutOfActionArea(moveAction: MouseEvent) : Boolean {
-        return((moveAction.sceneX.toInt() < GkSettings.WINDOW_SIZE / 8) ||
+    private fun isOutOfActionArea(moveAction: MouseEvent): Boolean {
+        return ((moveAction.sceneX.toInt() < GkSettings.WINDOW_SIZE / 8) ||
                 (moveAction.sceneX.toInt() > GkSettings.WINDOW_SIZE - GkSettings.WINDOW_SIZE / 8))
     }
 
@@ -76,7 +76,8 @@ class GkController(val group: Group, val scene: Scene) {
             KeyCode.F -> movement.zoomOut()
             KeyCode.Q -> movement.rotateHorizontal(-GkSettings.ROTATE)
             KeyCode.E -> movement.rotateHorizontal(GkSettings.ROTATE)
-            else -> { }
+            else -> {
+            }
         }
     }
 

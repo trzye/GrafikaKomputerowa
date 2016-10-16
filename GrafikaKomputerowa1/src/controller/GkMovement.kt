@@ -2,7 +2,7 @@ package controller
 
 import model.GkScene
 
-class GkMovement(val gkScene : GkScene) {
+class GkMovement(val gkScene: GkScene) {
 
     fun stepBack() {
         gkScene.points.forEach { point3d -> point3d.z += GkSettings.STEP }
@@ -13,14 +13,14 @@ class GkMovement(val gkScene : GkScene) {
     }
 
     fun rotateHorizontal(rotation: Double) {
-            gkScene.points.forEach { point ->
-                val centerX = 0
-                val centerZ = -GkSettings.WINDOW_SIZE
-                val newPointX = centerX + (point.x - centerX) * Math.cos(rotation) - (point.z - centerZ) * Math.sin(rotation)
-                val newPointZ = centerZ + (point.x - centerX) * Math.sin(rotation) + (point.z - centerZ) * Math.cos(rotation)
-                point.x = newPointX
-                point.z = newPointZ
-            }
+        gkScene.points.forEach { point ->
+            val centerX = 0
+            val centerZ = -GkSettings.WINDOW_SIZE
+            val newPointX = centerX + (point.x - centerX) * Math.cos(rotation) - (point.z - centerZ) * Math.sin(rotation)
+            val newPointZ = centerZ + (point.x - centerX) * Math.sin(rotation) + (point.z - centerZ) * Math.cos(rotation)
+            point.x = newPointX
+            point.z = newPointZ
+        }
     }
 
     fun stepRight() {

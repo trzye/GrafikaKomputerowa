@@ -9,7 +9,7 @@ import model.GkSquare
 
 object GkInput {
 
-     val gkCube1 = GkCube(
+    private val gkCube1 = GkCube(
             squareA =
             GkSquare(
                     downLeftPoint = GkPoint(x = -100, y = -300, z = 200),
@@ -30,7 +30,7 @@ object GkInput {
             ),
             color = Color.TRANSPARENT
     )
-     val gkCube2 = GkCube(
+    private val gkCube2 = GkCube(
             squareA =
             GkSquare(
                     downLeftPoint = GkPoint(x = 200, y = -300, z = 300),

@@ -1,16 +1,12 @@
 package bsp
 
-import controller.GkSettings
-import javafx.scene.shape.Polygon
+import bsp.GkPosition.*
+import controller.GkSettings.CAMERA_POINT
 import model.GkPlane
-import model.GkPoint
 import model.GkPolygon
 import java.util.*
-import kotlin.reflect.jvm.internal.impl.javax.inject.Inject
 
-class BspTree private @Inject constructor(polygons: Stack<GkPolygon>, val parent: BspTree?) {
-
-    constructor(polygons: Stack<GkPolygon>) : this(polygons, null)
+class BspTree(polygons: Stack<GkPolygon>) {
 
     val element: GkPolygon
     val front: BspTree?
@@ -24,38 +20,37 @@ class BspTree private @Inject constructor(polygons: Stack<GkPolygon>, val parent
         while (polygons.isNotEmpty()) {
             val polygon = polygons.pop().copy()
             when (polygon.positionBy(plane)) {
-                GkPosition.ON_PLANE -> frontPolygons.push(polygon)
-                GkPosition.BEFORE_PLANE -> frontPolygons.push(polygon)
-                GkPosition.BEHIND_PLANE -> backPolygons.push(polygon)
-                GkPosition.CANT_STATE -> polygon.splitBy(plane).forEach { polygon -> polygons.push(polygon) }
+                ON_PLANE -> frontPolygons.push(polygon)
+                BEFORE_PLANE -> frontPolygons.push(polygon)
+                BEHIND_PLANE -> backPolygons.push(polygon)
+                CANT_STATE -> polygon.splitBy(plane).forEach { polygon -> polygons.push(polygon) }
             }
         }
         if (frontPolygons.isNotEmpty())
-            front = BspTree(polygons = frontPolygons, parent = this)
+            front = BspTree(frontPolygons)
         else
             front = null
         if (backPolygons.isNotEmpty())
-            back = BspTree(polygons = backPolygons, parent = this)
+            back = BspTree(backPolygons)
         else
             back = null
     }
 
-    val myPoint = GkPoint(0, 0, -GkSettings.PERSPECTIVE_DISTANCE)
 
-    fun getAllPolygons(): List<GkPolygon> {
+    fun getPolygonsByDrawingQueue(): List<GkPolygon> {
         val result = emptyList<GkPolygon>().toMutableList()
-        if (myPoint.positionBy(GkPlane(element)) == GkPosition.BEFORE_PLANE) {
+        if (CAMERA_POINT.positionBy(GkPlane(element)) == BEFORE_PLANE) {
             if (back != null)
-                result.addAll(back.getAllPolygons())
+                result.addAll(back.getPolygonsByDrawingQueue())
             result.add(element)
             if (front != null)
-                result.addAll(front.getAllPolygons())
+                result.addAll(front.getPolygonsByDrawingQueue())
         } else {
             if (front != null)
-                result.addAll(front.getAllPolygons())
+                result.addAll(front.getPolygonsByDrawingQueue())
             result.add(element)
             if (back != null)
-                result.addAll(back.getAllPolygons())
+                result.addAll(back.getPolygonsByDrawingQueue())
         }
         return result
     }
