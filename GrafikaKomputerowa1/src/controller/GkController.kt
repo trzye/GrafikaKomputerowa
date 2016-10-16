@@ -1,5 +1,6 @@
 package controller
 
+import bsp.GkPosition
 import javafx.scene.Cursor
 import javafx.scene.Group
 import javafx.scene.Scene
@@ -7,6 +8,7 @@ import javafx.scene.input.KeyCode
 import javafx.scene.input.KeyEvent
 import javafx.scene.input.MouseEvent
 import javafx.stage.Screen
+import model.GkPolygon
 import java.awt.Robot
 
 class GkController(val group: Group, val scene: Scene) {
@@ -22,8 +24,15 @@ class GkController(val group: Group, val scene: Scene) {
     private fun renderScene() {
         group.children.clear()
         gkScene.polygons.forEach { polygon ->
-            polygon.refresh()
-            group.children.add(polygon)
+            when(polygon.positionBy(GkSettings.CAMERA_PLANE)){
+                GkPosition.ON_PLANE -> group.children.add(polygon)
+                GkPosition.BEFORE_PLANE -> group.children.add(polygon)
+                GkPosition.BEHIND_PLANE -> {} //don't render when behind scene
+                GkPosition.CANT_STATE -> {group.children.add(polygon.copy().splitBy(GkSettings.CAMERA_PLANE).last())}
+            }
+        }
+        group.children.forEach {
+            polygon -> (polygon as GkPolygon).refresh()
         }
     }
 
