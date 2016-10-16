@@ -1,11 +1,13 @@
 package model
 
+import bsp.GkAlphaDirection
+import bsp.GkPosition
 import controller.GkSettings
 import javafx.scene.paint.Color
 import javafx.scene.shape.Polygon
-import model.GkPosition.*
+import bsp.GkPosition.*
 
-class GkPolygon(val points3d: List<GkPoint>,
+class GkPolygon(val points3d: List<GkPoint>, val alphaDirection: GkAlphaDirection,
                 val fillColor : Color = Color(0.3,0.3,0.3,0.3),
                 val strokeColor : Color = Color.BLACK) : Polygon() {
 
@@ -28,7 +30,7 @@ class GkPolygon(val points3d: List<GkPoint>,
         points3d.forEach { point3d -> points.addAll(xToWindow(point3d.refresh().x2d), yToWindow(point3d.refresh().y2d)) }
     }
 
-    fun positionBy(plane: GkPlane) : GkPosition{
+    fun positionBy(plane: GkPlane) : GkPosition {
         if(points3d.count { p -> p.positionBy(plane) == BEHIND_PLANE } == 0)
             return BEFORE_PLANE
         if(points3d.count { p -> p.positionBy(plane) == BEFORE_PLANE } == 0)
@@ -50,7 +52,9 @@ class GkPolygon(val points3d: List<GkPoint>,
             listOne.addAll(listOf(pointB1,pointB2))
             val listTwo = sortedPoints.subList(lastBehindIndex+1, sortedPoints.lastIndex + 1).toMutableList()
             listTwo.addAll(listOf(pointB2,pointB1))
-            return listOf(GkPolygon(listOne, fillColor, strokeColor), GkPolygon(listTwo, fillColor, strokeColor))
+            return listOf(
+                    GkPolygon(listOne, alphaDirection, fillColor, strokeColor),
+                    GkPolygon(listTwo,alphaDirection, fillColor, strokeColor))
         }
         throw IllegalArgumentException("Can't split polygon $points3d by plane $plane")
     }
@@ -68,9 +72,7 @@ class GkPolygon(val points3d: List<GkPoint>,
     fun copy(): GkPolygon {
         val points = emptyList<GkPoint>().toMutableList()
         points3d.forEach { point -> points.add(point.copy()) }
-        val copy = GkPolygon(points)
-        copy.fill = fillColor
-        copy.stroke = strokeColor
+        val copy = GkPolygon(points, alphaDirection, fillColor, strokeColor)
         return copy
     }
 }

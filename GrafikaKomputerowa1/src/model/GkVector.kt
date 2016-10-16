@@ -1,7 +1,5 @@
 package model
 
-import model.GkPoint
-
 data class GkVector(val x : Double,val y : Double,val z : Double){
     constructor(a : GkPoint, b : GkPoint) : this(a.x - b.x, a.y - b.y, a.z - b.z)
 

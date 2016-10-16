@@ -1,4 +1,4 @@
-package model
+package bsp
 
 enum class GkPosition {
     BEFORE_PLANE,

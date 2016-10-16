@@ -6,13 +6,7 @@ import javafx.scene.Scene
 import javafx.scene.input.KeyCode
 import javafx.scene.input.KeyEvent
 import javafx.scene.input.MouseEvent
-import javafx.scene.paint.Color
-import javafx.scene.paint.Color.BLACK
-import javafx.scene.paint.Color.TRANSPARENT
 import javafx.stage.Screen
-import model.GkPlane
-import model.GkPolygon
-import model.GkPosition.CANT_STATE
 import java.awt.Robot
 
 class GkController(val group: Group, val scene: Scene) {

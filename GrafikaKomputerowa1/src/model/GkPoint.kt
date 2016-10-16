@@ -1,5 +1,6 @@
 package model
 
+import bsp.GkPosition
 import controller.GkSettings
 
 data class GkPoint(var x : Double, var y : Double, var z : Double){
