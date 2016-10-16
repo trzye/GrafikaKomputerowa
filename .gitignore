@@ -6,7 +6,7 @@
 *.ear
 
 # Idea
-*.iml
+# *.iml
 
 # Virtual machine crash logs
 hs_err_pid*
