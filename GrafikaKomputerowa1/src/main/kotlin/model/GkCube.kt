@@ -12,7 +12,7 @@ data class GkCube(val squareA: GkSquare, val squareB: GkSquare, val color: Paint
 
         val floor = GkSquare(
                 squareA.downLeftPoint, squareA.downRightPoint, squareB.downLeftPoint, squareB.downRightPoint,
-                GkAlphaDirection.FLOOR, Color.BROWN).createQuadrilateral()
+                GkAlphaDirection.TOP, Color.BROWN).createQuadrilateral()
 
         val top = GkSquare(
                 squareA.upperLeftPoint, squareA.upperRightPoint, squareB.upperLeftPoint, squareB.upperRightPoint,

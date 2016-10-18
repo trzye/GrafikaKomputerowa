@@ -9,7 +9,7 @@ data class GkSquare(val downLeftPoint: GkPoint,
                     val upperRightPoint: GkPoint,
                     val alphaDirection: GkAlphaDirection,
                     val fillColor: Color = Color(0.3, 0.3, 0.3, 0.3),
-                    val strokeColor: Color = Color.BLACK) {
+                    val strokeColor: Color = fillColor) {
 
     fun createQuadrilateral(): GkPolygon {
         return GkPolygon(listOf(downLeftPoint, downRightPoint, upperRightPoint, upperLeftPoint), alphaDirection, fillColor, strokeColor)

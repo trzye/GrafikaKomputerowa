@@ -21,7 +21,7 @@ class GkPolygon(val points3d: List<GkPoint>, val alphaDirection: GkAlphaDirectio
         }
     }
 
-    private fun yToWindow(y: Double) = -y
+    private fun yToWindow(y: Double) = GkSettings.WINDOW_SIZE - y -  GkSettings.WINDOW_SIZE /2
 
     private fun xToWindow(x: Double) = GkSettings.WINDOW_SIZE / 2 + x
 
